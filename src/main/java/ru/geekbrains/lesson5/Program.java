@@ -33,6 +33,8 @@ public class Program {
             System.out.println("5. Отобразить все текстуры проекта");
             System.out.println("6. Выполнить рендер всех моделей");
             System.out.println("7. Выполнить рендер модели");
+            System.out.println("8. Добавить модель");
+            System.out.println("9. Добавить текстуру");
             System.out.println("0. ЗАВЕРШЕНИЕ РАБОТЫ ПРИЛОЖЕНИЯ");
             System.out.print("Пожалуйста, выберите пункт меню: ");
             if (scanner.hasNextInt()){
@@ -72,6 +74,14 @@ public class Program {
                             else {
                                 System.out.println("Номер модели указан некорректно.");
                             }
+                            break;
+                        case 8:
+                            editor3D.addModel();
+                            System.out.println("Была добавлена модель.");
+                            break;
+                        case 9:
+                            editor3D.addTexture();
+                            System.out.println("Была добавлена текстура.");
                             break;
                         default:
                             System.out.println("Укажите корректный пункт меню.");
@@ -203,6 +213,16 @@ class Editor3D implements UILayer{
         long endTime = (System.currentTimeMillis() - startTime);
         System.out.printf("Операция выполнена за %d мс.\n", endTime);
     }
+
+    @Override
+    public void addModel() {
+        businessLogicalLayer.addModel();
+    }
+
+    @Override
+    public void addTexture() {
+        businessLogicalLayer.addTexture();
+    }
 }
 
 /**
@@ -217,6 +237,8 @@ interface UILayer{
     void printAllTextures();
     void renderAll();
     void renderModel(int i);
+    void addModel();
+    void addTexture();
 
 }
 
@@ -253,6 +275,16 @@ class EditorBusinessLogicalLayer implements BusinessLogicalLayer{
             processRender(model);
     }
 
+    @Override
+    public void addModel() {
+        databaseAccess.addEntity(new Model3D());
+    }
+
+    @Override
+    public void addTexture() {
+        databaseAccess.addEntity(new Texture());
+    }
+
     private Random random = new Random();
 
     private void processRender(Model3D model){
@@ -278,6 +310,10 @@ interface BusinessLogicalLayer{
     void renderModel(Model3D model);
 
     void renderAllModels();
+
+    void addModel();
+
+    void addTexture();
 }
 
 /**
