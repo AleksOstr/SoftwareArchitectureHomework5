@@ -76,11 +76,11 @@ public class Program {
                             }
                             break;
                         case 8:
-                            editor3D.addModel();
+                            editor3D.addEntity(new Model3D());
                             System.out.println("Была добавлена модель.");
                             break;
                         case 9:
-                            editor3D.addTexture();
+                            editor3D.addEntity(new Texture());
                             System.out.println("Была добавлена текстура.");
                             break;
                         default:
@@ -215,14 +215,10 @@ class Editor3D implements UILayer{
     }
 
     @Override
-    public void addModel() {
-        businessLogicalLayer.addModel();
+    public void addEntity(Entity entity) {
+        businessLogicalLayer.addEntity(entity);
     }
 
-    @Override
-    public void addTexture() {
-        businessLogicalLayer.addTexture();
-    }
 }
 
 /**
@@ -237,8 +233,7 @@ interface UILayer{
     void printAllTextures();
     void renderAll();
     void renderModel(int i);
-    void addModel();
-    void addTexture();
+    void addEntity(Entity entity);
 
 }
 
@@ -276,13 +271,8 @@ class EditorBusinessLogicalLayer implements BusinessLogicalLayer{
     }
 
     @Override
-    public void addModel() {
-        databaseAccess.addEntity(new Model3D());
-    }
-
-    @Override
-    public void addTexture() {
-        databaseAccess.addEntity(new Texture());
+    public void addEntity(Entity entity) {
+        databaseAccess.addEntity(entity);
     }
 
     private Random random = new Random();
@@ -311,9 +301,7 @@ interface BusinessLogicalLayer{
 
     void renderAllModels();
 
-    void addModel();
-
-    void addTexture();
+    void addEntity(Entity entity);
 }
 
 /**
